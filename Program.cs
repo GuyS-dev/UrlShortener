@@ -1,15 +1,11 @@
-using Microsoft.EntityFrameworkCore;
-using UrlApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<UrlContext>(opt =>
-    opt.UseInMemoryDatabase("TodoList"));
+
 
 var app = builder.Build();
 
@@ -23,7 +19,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

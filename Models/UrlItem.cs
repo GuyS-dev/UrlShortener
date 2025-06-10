@@ -1,8 +1,14 @@
-namespace UrlItem.Models;
+namespace UrlApi.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 public class UrlItem
 {
-    public long Id { get; set; }
-    public string? Name { get; set; }
-    public bool IsComplete { get; set; }
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string? Id { get; set; }
+
+    public required string OriginalUrl { get; set; }
+
+    public string? ShortCode { get; set; }
 }

@@ -19,27 +19,33 @@ public class ShortenController : ControllerBase
     [HttpPost("api/shorten")]
     public async Task<IActionResult> ShortenUrl([FromBody] UrlItem request)
     {
+        // Return existing short code if URL already shortened
+        var existing = await _urlCollection.Find(u => u.OriginalUrl == request.OriginalUrl).FirstOrDefaultAsync();
+        if (existing != null)
+            return Ok($"http://localhost:5009/{existing.ShortCode}");
+
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        var stringChars = new char[6];
         var random = new Random();
+        string shortCode;
 
-        for (int i = 0; i < stringChars.Length; i++)
+        // Generate a unique short code
+        do
         {
-            stringChars[i] = chars[random.Next(chars.Length)];
+            shortCode = new string(Enumerable.Range(0, 6).Select(_ => chars[random.Next(chars.Length)]).ToArray());
         }
-
-        var finalString = new String(stringChars);
+        while (await _urlCollection.Find(u => u.ShortCode == shortCode).AnyAsync());
 
         var urlItem = new UrlItem
         {
             OriginalUrl = request.OriginalUrl,
-            ShortCode = finalString
+            ShortCode = shortCode
         };
 
         await _urlCollection.InsertOneAsync(urlItem);
 
-        return Ok($"http://localhost:5009/{finalString}");
+        return Ok($"http://localhost:5009/{shortCode}");
     }
+
 
     // GET /{shortCode}
     [HttpGet("{shortCode}")]

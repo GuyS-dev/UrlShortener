@@ -4,12 +4,48 @@ import { useState } from 'react';
 
 function App() {
 
-  const [input, setInput] = useState("");
+  const [urlInput, setInput] = useState("");
+  const [shortenedUrl, setShortenedUrl] = useState("");
 
-  const handleSubmit = (e) => {
+  /*const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`You typed: ${input}`);
-  };
+    fetch("http://localhost:5009/api/shorten", {
+      method: "POST",
+      body: JSON.stringify({
+        originalUrl: urlInput,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+  };*/
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch("http://localhost:5009/api/shorten", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        originalUrl: urlInput,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+
+    const resultUrl = await response.text();
+    console.log("Shortened URL:", resultUrl);
+    setShortenedUrl(resultUrl)
+    setInput("");
+  } catch (error) {
+    console.error("Fetch failed:", error.message);
+  }
+};
+
 
   return (
     <div className="App">
@@ -24,8 +60,9 @@ function App() {
       <form onSubmit={handleSubmit} className="form">
         <input
           type="text"
+          id="urlInput"
           placeholder="Type something..."
-          value={input}
+          value={urlInput}
           onChange={(e) => setInput(e.target.value)}
           className="input-box"
         />
@@ -33,6 +70,14 @@ function App() {
           Submit
         </button>
       </form>
+      {shortenedUrl && (
+        <p className='result'>
+          Shortened URL: <a href={shortenedUrl}>{shortenedUrl}</a>
+        </p>
+      )}
+      <p className='credits'>
+        • By Guy Singer •
+      </p>
     </div>
   );
 }

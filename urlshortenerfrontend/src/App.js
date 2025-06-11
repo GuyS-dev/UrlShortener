@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import logo from 'D:/url-shortener-guys/urlshortenerfrontend/src/assets/images/short_url_logo.png';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+
+  const [input, setInput] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`You typed: ${input}`);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+        <p className='Instruction'>
+          Enter the URL to shorten it!
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+
       </header>
+
+      <form onSubmit={handleSubmit} className="form">
+        <input
+          type="text"
+          placeholder="Type something..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="input-box"
+        />
+        <button type="submit" className="submit-btn">
+          Submit
+        </button>
+      </form>
     </div>
   );
 }

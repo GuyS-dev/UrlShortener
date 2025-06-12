@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./UrlShortenerApi
+      dockerfile: Dockerfile
+    container_name: dotnet-api
+    ports:
+      - "5009:5009"
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./urlshortenerfrontend
+      dockerfile: Dockerfile
+    container_name: react-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

@@ -1,4 +1,4 @@
-import logo from 'D:/url-shortener-guys/urlshortenerfrontend/src/assets/images/short_url_logo.png';
+import logo from './assets/images/short_url_logo.png';
 import './App.css';
 import { useState } from 'react';
 

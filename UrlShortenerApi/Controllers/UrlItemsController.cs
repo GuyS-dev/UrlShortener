@@ -10,7 +10,7 @@ public class ShortenController : ControllerBase
 
     public ShortenController()
     {
-        var client = new MongoClient("mongodb://localhost:27017");
+        var client = new MongoClient("mongodb://mongo:27017");
         var database = client.GetDatabase("UrlShortenerDb");
         _urlCollection = database.GetCollection<UrlItem>("urls");
     }

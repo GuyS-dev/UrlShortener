@@ -1,33 +1,42 @@
-version: "3.9"
-
+name: url-shortener
 services:
   mongo:
-    image: mongo:6
-    container_name: mongo
+    image: mongo:7.0
+    container_name: mongodb
     ports:
       - "27017:27017"
+    networks:
+      - app-net
     volumes:
       - mongo-data:/data/db
 
-  backend:
+  api-backend:
     build:
       context: ./UrlShortenerApi
       dockerfile: Dockerfile
-    container_name: dotnet-api
+    container_name: api-backend
     ports:
       - "5009:5009"
+    networks:
+      - app-net
     depends_on:
       - mongo
 
-  frontend:
+  front-image:
     build:
       context: ./urlshortenerfrontend
       dockerfile: Dockerfile
-    container_name: react-app
+    container_name: api-frontend
     ports:
-      - "3000:3000"
+      - "3000:80"
+    networks:
+      - app-net
     depends_on:
-      - backend
+      - api-backend
+
+networks:
+  app-net:
+    external: true
 
 volumes:
   mongo-data:

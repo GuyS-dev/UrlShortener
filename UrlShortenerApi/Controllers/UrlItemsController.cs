@@ -19,6 +19,10 @@ public class ShortenController : ControllerBase
     [HttpPost("api/shorten")]
     public async Task<IActionResult> ShortenUrl([FromBody] UrlItem request)
     {
+        
+        if (string.IsNullOrWhiteSpace(request.OriginalUrl))
+        return BadRequest("OriginalUrl cannot be empty.");
+
         // Return existing short code if URL already shortened
         var existing = await _urlCollection.Find(u => u.OriginalUrl == request.OriginalUrl).FirstOrDefaultAsync();
         if (existing != null)

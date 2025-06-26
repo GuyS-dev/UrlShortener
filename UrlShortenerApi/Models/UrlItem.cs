@@ -11,4 +11,6 @@ public class UrlItem
     public required string OriginalUrl { get; set; }
 
     public string? ShortCode { get; set; }
+
+    public int ClickCount { get; set; }
 }

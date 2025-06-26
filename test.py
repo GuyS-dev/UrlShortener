@@ -6,10 +6,9 @@ from urllib3.exceptions import InsecureRequestWarning
 
 urllib3.disable_warnings(InsecureRequestWarning)  # disable SSL warnings for local dev
 
-url = "http://localhost:5009/api/shorten"
-data = {
-    "originalUrl": "http://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/required",
-}
+short_code = "6YQZY3"
+url = f"http://localhost:5009/api/stats/{short_code}"
 
-response = requests.post(url, json=data, verify=False)
+response = requests.get(url, verify=False)
+print(response.status_code)
 print(response.text)

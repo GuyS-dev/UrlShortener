@@ -107,3 +107,15 @@ The Swagger UI is accessible via:
 
 http://localhost:5009/swagger/
 
+---
+**It is highly recommended to use the docker compose for easy build and run**
+It will build the images and run them in separate containers. It will also create the network connecting them and the volume for the MongoDB.
+In the Project's top folder, where the 'docker-compose.yml' is, run the following commands:
+```
+docker-compose build
+docker-compose up # -d flag to run it in the background
+```
+And in order to kill and remove all images, containers, networks, volumes etc. run this command:
+```
+docker-compose down
+```

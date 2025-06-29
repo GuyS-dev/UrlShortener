@@ -1,28 +1,27 @@
+// Importing the ui logo
 import logo from './assets/images/short_url_logo.png';
+// Importing the css styles
 import './App.css';
 import { useState } from 'react';
 
+// React frontend
 function App() {
 
+  // State to store the user url input
   const [urlInput, setInput] = useState("");
+  // State to store the result of the api call, the shortened version
   const [shortenedUrl, setShortenedUrl] = useState("");
 
-  /*const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch("http://localhost:5009/api/shorten", {
-      method: "POST",
-      body: JSON.stringify({
-        originalUrl: urlInput,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    });
-  };*/
 
+  /**
+   * Handles form submission by sending the original URL to the backend API.
+   * On success, sets the shortened URL and clears the input field.
+   * Logs an error message if the request fails.
+   * */
   const handleSubmit = async (e) => {
   e.preventDefault();
   try {
+    // Sending a POST request to the backend API with the original url from the input
     const response = await fetch("http://localhost:5009/api/shorten", {
       method: "POST",
       headers: {
@@ -32,14 +31,17 @@ function App() {
         originalUrl: urlInput,
       }),
     });
-
+    
+    // Error handling if the response from the backend is not ok
     if (!response.ok) {
       throw new Error(`Server error: ${response.status}`);
     }
-
+    
+    // Fetches the response as text and set the resultUrl state to it
     const resultUrl = await response.text();
     console.log("Shortened URL:", resultUrl);
     setShortenedUrl(resultUrl)
+    // Clears the input box
     setInput("");
   } catch (error) {
     console.error("Fetch failed:", error.message);

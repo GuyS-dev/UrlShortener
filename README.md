@@ -27,7 +27,7 @@ It allows users to submit long URLs and receive a shortened version, which can l
   
   
 
-## Dependencies
+## Dependencies (Only if NOT using Docker Compose - else jump to the bottom of this page)
 
   
 
@@ -57,7 +57,7 @@ https://nodejs.org/
   
   
 
-## Running Instructions
+## Running Instructions (Jump to the bottom to use docker-compose)
 
   
 
